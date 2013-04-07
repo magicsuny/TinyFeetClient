@@ -3,7 +3,6 @@ package com.themis.tinyfeet.weibo;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-
 import com.weibo.sdk.android.Oauth2AccessToken;
 /**
  * 该类用于保存Oauth2AccessToken到sharepreference，并提供读取功能

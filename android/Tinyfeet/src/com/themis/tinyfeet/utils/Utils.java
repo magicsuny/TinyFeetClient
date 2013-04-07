@@ -1,22 +1,15 @@
 package com.themis.tinyfeet.utils;
 
+import android.graphics.*;
+import android.graphics.Bitmap.Config;
+import android.graphics.PorterDuff.Mode;
+import android.location.Location;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.location.Location;
 
 public class Utils {
 	/**

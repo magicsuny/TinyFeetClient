@@ -1,11 +1,12 @@
 package com.themis.tinyfeet.weibo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
-
 import com.weibo.sdk.android.Oauth2AccessToken;
 import com.weibo.sdk.android.Weibo;
 import com.weibo.sdk.android.WeiboAuthListener;
+import com.weibo.sdk.android.sso.SsoHandler;
 
 public class SinaWeibo {
 	private Weibo mWeibo;
@@ -17,6 +18,14 @@ public class SinaWeibo {
 	public SinaWeibo() {
 		mWeibo = Weibo.getInstance(CONSUMER_KEY, REDIRECT_URL);
 	}
+
+    public SsoHandler getSsoHandler(Activity activity){
+        return new SsoHandler(activity,mWeibo);
+    }
+
+    public void ssoAuthorize(SsoHandler ssoHandler, WeiboAuthListener listener){
+        ssoHandler.authorize(listener);
+    }
 
 	public void authorize(Context context, WeiboAuthListener listener) {
 		mWeibo.authorize(context, listener);

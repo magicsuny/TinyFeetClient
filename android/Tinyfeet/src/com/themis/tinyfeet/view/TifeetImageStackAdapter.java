@@ -1,16 +1,14 @@
 package com.themis.tinyfeet.view;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.List;
-
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
 import com.themis.tinyfeet.bo.TfeetStack;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.List;
 
 public class TifeetImageStackAdapter extends BaseAdapter{
 	private List<TfeetStack> stackList;

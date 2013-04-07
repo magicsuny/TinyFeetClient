@@ -1,27 +1,86 @@
-package tutorial;
+import "user.proto";
 
-option java_package = "com.themis.tinyfeet.proto";
-option java_outer_classname = "AddressBookProtos";
 
-message Person {
-  required string name = 1;
-  required int32 id = 2;
-  optional string email = 3;
-
-  enum PhoneType {
-    MOBILE = 0;
-    HOME = 1;
-    WORK = 2;
-  }
-
-  message PhoneNumber {
-    required string number = 1;
-    optional PhoneType type = 2 [default = HOME];
-  }
-
-  repeated PhoneNumber phone = 4;
+// season
+enum Season {
+    SPRING = 0;
+    SUMMER = 1;
+    AUTUMN = 2; 
+    WINTER = 3;
 }
 
-message AddressBook {
-  repeated Person person = 1;
+// daynight
+enum DayNight{
+    DAY = 0;
+    NIGHT = 1;
+}
+
+// geo
+message Geo{
+    required double lat = 1;
+    required double lng = 2;
+}
+
+
+//tfeet详细信息
+message TFeet {
+    required int64 tfid = 1;
+    required UserSimple user = 2; //添加者信息 ref user.proto
+    required string pic_url = 3; //图片http url
+    required string text = 4;    // tfeet描述
+    required Geo geo = 5;
+    required int64 created_at = 6; //时间戳
+    optional Season season = 7 [default = SPRING];
+    optional DayNight daynight = 8 [default = DAY];
+    optional int64 liked_count = 9 [default = 0]; // 喜欢人数
+    optional int64 comment_count = 10 [default = 0]; //评论数
+    optional int64 sqid = 11 [default = 0]; // sqid 用于排序和分页
+    optional CommentList comments = 12; // 评论列表
+}
+
+
+// tfeet comment
+message Comment {
+    required UserSimple user_simple = 1; //评论者信息 ref user.proto
+    required string text = 2; 
+    required int64 created_at = 3; 
+}
+
+
+// tf列表
+message TFeetList {
+    repeated TFeet tfeet = 1;
+}
+
+
+// comments list
+message CommentList{
+    repeated Comment comments = 1;
+}
+
+
+// new tfeet
+message AddTFeetRequest {
+    required string uid = 1;
+    required string text = 2; 
+    required string latitude = 3;  // 维度
+    required string longitude = 4;  //经度
+    required bytes picture = 5; // 图片二进制
+    optional bool share2sns = 6 [default = true];
+}
+
+
+// like tfeet
+message LikeTFeetRequest {
+    required string uid = 1;
+    required int64 tfid  = 2;
+    optional bool share2sns = 3 [default = true];
+}
+
+// add comment
+message AddCommentRequest {
+    required string uid = 1;
+    required int64 tfid  = 2;
+    required string text = 3;
+    optional bool share2sns = 4 [default = true];
 }

@@ -1,13 +1,5 @@
 package com.themis.tinyfeet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -17,7 +9,6 @@ import android.os.Message;
 import android.view.Menu;
 import android.widget.GridView;
 import android.widget.ImageView;
-
 import com.themis.tinyfeet.bo.TfeetStack;
 import com.themis.tinyfeet.utils.Utils;
 import com.themis.tinyfeet.view.TifeetImageStackAdapter;
@@ -25,6 +16,13 @@ import com.themis.tinyfeet.weibo.AccessTokenKeeper;
 import com.weibo.sdk.android.WeiboException;
 import com.weibo.sdk.android.api.UsersAPI;
 import com.weibo.sdk.android.net.RequestListener;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DiscoveryActivity extends Activity {
 	private ImageView userAvatarIv;

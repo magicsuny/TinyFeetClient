@@ -1,7 +1,5 @@
 package com.themis.tinyfeet;
 
-import java.util.Stack;
-
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
@@ -9,6 +7,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.util.Log;
+
+import java.util.Stack;
 
 public class TinyFeetApplication extends Application implements
 		OnSharedPreferenceChangeListener {

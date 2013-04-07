@@ -1,0 +1,48 @@
+// 用户详细信息
+message UserDetail{
+    required string uid = 1; //用户ID
+    required string uname = 2; // 用户昵称
+    required string profile_image_url = 3;  //头像地址
+    optional string email = 4; //email
+    optional string gender = 5; //性别
+    optional string location = 6; // 所在地
+    optional int64 liked_count = 7 [default = 0]; // 喜欢数
+    optional int64 added_count = 8 [default = 0]; // 添加数
+    required int64 created_at = 9; // 加入日期
+}
+
+
+// 用户基本信息
+message UserSimple{
+    required string uid = 1;
+    required string uname = 2;
+    required string profile_image_url = 3;
+}
+
+// 关注好友
+message FollowUser{
+    required string uid = 1; // 自己uid
+    required string target_uid = 2; //关注对象uid
+}
+
+
+// OSS授权后添加用户
+message OSSRequest{
+    required string uid = 1;
+    required string access_token = 2;            // access_token
+    required int64 expires_in = 3;              // expires second
+}
+
+
+// 关注用户
+message FollowRequest{
+    required string uid = 1;
+    required string friend_uid = 2;
+}
+
+
+// 取消关注用户
+message UnFollowRequest{
+    required string uid = 1;
+    required string friend_uid = 2;
+}

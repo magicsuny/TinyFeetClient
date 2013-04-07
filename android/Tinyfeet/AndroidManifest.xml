@@ -35,10 +35,6 @@
             android:label="@string/title_activity_main" >
         </activity>
         <activity
-            android:name="com.themis.tinyfeet.TestActivity"
-            android:label="@string/title_activity_test" >
-        </activity>
-        <activity
             android:name="com.themis.tinyfeet.DiscoveryActivity"
             android:label="@string/title_activity_discovery" >
         </activity>

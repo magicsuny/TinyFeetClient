@@ -1,11 +1,5 @@
 package com.themis.tinyfeet;
 
-import java.io.IOException;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -29,7 +23,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.themis.tinyfeet.proto.AddressBookProtos.AddressBook;
 import com.themis.tinyfeet.proto.AddressBookProtos.Person;
@@ -38,6 +31,11 @@ import com.themis.tinyfeet.weibo.AccessTokenKeeper;
 import com.weibo.sdk.android.WeiboException;
 import com.weibo.sdk.android.api.UsersAPI;
 import com.weibo.sdk.android.net.RequestListener;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.IOException;
 
 public class MainActivity extends FragmentActivity {
 	private ImageView userAvatarIv;
