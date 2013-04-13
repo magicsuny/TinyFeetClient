@@ -38,6 +38,7 @@
             android:name="com.themis.tinyfeet.DiscoveryActivity"
             android:label="@string/title_activity_discovery" >
         </activity>
+        <service android:name=".service.TfeetListService" android:label="TfeetListService"/>
     </application>
 
 </manifest>
