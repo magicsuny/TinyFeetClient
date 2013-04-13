@@ -2,16 +2,14 @@ package com.themis.tinyfeet;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
@@ -26,6 +24,7 @@ import android.widget.Toast;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.themis.tinyfeet.proto.AddressBookProtos.AddressBook;
 import com.themis.tinyfeet.proto.AddressBookProtos.Person;
+import com.themis.tinyfeet.service.TfeetListService;
 import com.themis.tinyfeet.utils.Utils;
 import com.themis.tinyfeet.weibo.AccessTokenKeeper;
 import com.weibo.sdk.android.WeiboException;
@@ -72,7 +71,18 @@ public class MainActivity extends FragmentActivity {
     private TextView protoCodeTxt;
     private TextView convertTxt;
     private Button genProtoBtn;
-    
+    private ServiceConnection conn = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            //To change body of implemented methods use File | Settings | File Templates.
+        }
+    };
     
 	
 	@Override
@@ -85,7 +95,8 @@ public class MainActivity extends FragmentActivity {
         if (!gpsEnabled) {
         	new EnableGpsDialogFragment().show(getSupportFragmentManager(), "enableGpsDialog");
         }
-	}
+        startService(new Intent(this,TfeetListService.class));
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -118,15 +129,15 @@ public class MainActivity extends FragmentActivity {
 		locationBtn = (Button)findViewById(R.id.getLocationBtn);
 		updateWeiboHandler = new Handler(){ 
 			@Override
-			public void handleMessage(Message msg) { 
-				Bundle b = msg.getData();
-	            String userName = b.getString("userName");
-	            String avatarUrl = b.getString("avatarUrl");
-	            Bitmap bitmap = Utils.returnBitMap(avatarUrl);
-	            bitmap = Utils.getRoundedCornerBitmap(bitmap);
-				userAvatarIv.setImageBitmap(bitmap);    
-				userNameTv.setText(userName);
-			}
+			public void handleMessage(Message msg) {
+                Bundle b = msg.getData();
+                String userName = b.getString("userName");
+                String avatarUrl = b.getString("avatarUrl");
+                Bitmap bitmap = Utils.returnBitMap(avatarUrl);
+                bitmap = Utils.getRoundedCornerBitmap(bitmap);
+                userAvatarIv.setImageBitmap(bitmap);
+                userNameTv.setText(userName);
+            }
 		};
 		updateLocationHandler = new Handler(){
 			 public void handleMessage(Message msg) {

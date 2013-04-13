@@ -4,7 +4,6 @@ import android.graphics.*;
 import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
 import android.location.Location;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;

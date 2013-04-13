@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
+import com.themis.tinyfeet.db.TfeetDbHelper;
 
 public class SplashScreenActive extends Activity {
     public static final String TAG = "SplashScreenActive";
@@ -16,6 +17,7 @@ public class SplashScreenActive extends Activity {
         setContentView(R.layout.activity_splash_screen_active);
         //将该Activity压入全局管理栈中
         TinyFeetApplication.getInstance().addActivity(this);
+         TfeetDbHelper dbHelper = new TfeetDbHelper(this);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
