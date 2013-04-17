@@ -7,10 +7,7 @@ import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Message;
+import android.os.*;
 import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -95,7 +92,7 @@ public class MainActivity extends FragmentActivity {
         if (!gpsEnabled) {
         	new EnableGpsDialogFragment().show(getSupportFragmentManager(), "enableGpsDialog");
         }
-        startService(new Intent(this,TfeetListService.class));
+
     }
 
     @Override

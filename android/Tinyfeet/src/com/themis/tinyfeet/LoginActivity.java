@@ -81,10 +81,7 @@ public class LoginActivity extends Activity {
 			String expires_in = values.getString("expires_in");
 			accessToken = new Oauth2AccessToken(token, expires_in);
             if (accessToken.isSessionValid()) {
-                Intent intent = new Intent();
-                intent.setClass(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                TinyFeetApplication.getInstance().finishCurrentActivity();
+
                 AccountAPI accountApi = new AccountAPI(accessToken);
                 accountApi.getUid(new RequestListener() {
                     @Override
@@ -97,6 +94,10 @@ public class LoginActivity extends Activity {
                             shareData.putString(Constants.SP_CURRENT_UID, uid);
                             shareData.commit();
                             Log.i(TAG, "登录用户的UID是：" + uid);
+                            Intent intent = new Intent();
+                            intent.setClass(LoginActivity.this, LocationTfeetListActivity.class);
+                            startActivity(intent);
+                            TinyFeetApplication.getInstance().finishCurrentActivity();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

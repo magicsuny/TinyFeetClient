@@ -6,6 +6,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.os.StrictMode;
 import android.util.Log;
 
 import java.util.Stack;
@@ -92,6 +93,8 @@ public class TinyFeetApplication extends Application implements
 	@Override
 	public void onCreate() {
 		Log.i(TAG, "启动");
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectLeakedSqlLiteObjects().penaltyLog().build());
 		super.onCreate();
 	}
 

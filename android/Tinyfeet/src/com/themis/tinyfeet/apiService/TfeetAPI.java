@@ -8,9 +8,6 @@ import com.themis.tinyfeet.bo.UserBO;
 import com.themis.tinyfeet.proto.Tfeet;
 import com.themis.tinyfeet.proto.User;
 import com.themis.tinyfeet.utils.HttpUtils;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,9 +34,9 @@ public class TfeetAPI {
     private static final String API_PATH_LIKE_TFEET = "/t/like";
     private static final String API_PATH_ADD_COMMENT = "/t/comment";
     private static final String API_PATH_GET_TFEET_DETAIL = "/t/";
-    private static final String API_PATH_GET_TFEET_COMMENTLIST = "/t/m/";
-    private static final String API_PATH_GET_TFEET_LOCLIST = "/t/loc/";
-    private static final String API_PATH_GET_TFEET_FRIENDS = "/t/u/";
+    private static final String API_PATH_GET_TFEET_COMMENTLIST = "/t/m";
+    private static final String API_PATH_GET_TFEET_LOCLIST = "/t/loc";
+    private static final String API_PATH_GET_TFEET_FRIENDS = "/t/u";
     private static final String API_PATH_GET_USERDETAIL = "/u/";
     private static final String API_PATH_GET_USEROSS = "/u/oss";
     private static final String API_PATH_GET_USER_FOLLOW = "/u/follow";
@@ -77,7 +74,7 @@ public class TfeetAPI {
      * @param shared2SNS 是否分享到微博
      * @throws JSONException
      */
-    public static void listTfeet(long tfid,String uId,Boolean shared2SNS) throws JSONException {
+    public static void likeTfeet(long tfid,String uId,Boolean shared2SNS) throws JSONException {
         Tfeet.LikeTFeetRequest.Builder  likeTfeetRequest = Tfeet.LikeTFeetRequest.newBuilder();
         likeTfeetRequest.setTfid(tfid);
         likeTfeetRequest.setUid(uId);
@@ -113,8 +110,8 @@ public class TfeetAPI {
      * @return
      * @throws InvalidProtocolBufferException
      */
-    public TfeetBO getTfeetDetail(long tfid) throws InvalidProtocolBufferException {
-        String responseStr = HttpUtils.getResponseForGet(API_PATH_GET_TFEET_DETAIL+tfid,genAPIHeader());
+    public static TfeetBO getTfeetDetail(long tfid) throws InvalidProtocolBufferException {
+        String responseStr = HttpUtils.getResponseForGet(wrapRESTFulUrl(API_PATH_GET_TFEET_DETAIL,tfid),genAPIHeader());
         Tfeet.TFeet tfeet =  Tfeet.TFeet.parseFrom(Base64.decode(responseStr,Base64.DEFAULT));
         TfeetBO tfeetBO = new TfeetBO();
         tfeetBO.protobuf2BO(tfeet);
@@ -128,9 +125,9 @@ public class TfeetAPI {
      * @return
      * @throws InvalidProtocolBufferException
      */
-    public List<CommentBO> getCommentList(long tfid,long timestamp) throws InvalidProtocolBufferException {
+    public static List<CommentBO> getCommentList(long tfid,long timestamp) throws InvalidProtocolBufferException {
         List<CommentBO> commentBOList = new ArrayList<CommentBO>();
-        String responseStr = HttpUtils.getResponseForGet(API_PATH_GET_TFEET_COMMENTLIST+tfid+"/"+timestamp,genAPIHeader());
+        String responseStr = HttpUtils.getResponseForGet(wrapRESTFulUrl(API_PATH_GET_TFEET_COMMENTLIST,tfid,timestamp),genAPIHeader());
         Tfeet.CommentList resCommentList = Tfeet.CommentList.parseFrom(Base64.decode(responseStr,Base64.DEFAULT));
         List<Tfeet.Comment> commentList = resCommentList.getCommentsList();
         for(Tfeet.Comment comment:commentList){
@@ -151,9 +148,9 @@ public class TfeetAPI {
      * @return
      * @throws InvalidProtocolBufferException
      */
-    public List<TfeetBO> getLocTfeetList(long lat,long lng,int season,int daynight,long lastSqid) throws InvalidProtocolBufferException {
+    public static List<TfeetBO> getLocTfeetList(long lat,long lng,int season,int daynight,long lastSqid) throws InvalidProtocolBufferException {
         List<TfeetBO> tfeetBOList = new ArrayList<TfeetBO>();
-        String responseStr = HttpUtils.getResponseForGet(API_PATH_GET_TFEET_LOCLIST+lat+"/"+lng+"/"+season+"/"+daynight+"/"+lastSqid,genAPIHeader());
+        String responseStr = HttpUtils.getResponseForGet(wrapRESTFulUrl(API_PATH_GET_TFEET_LOCLIST,lat,lng,season,daynight,lastSqid),genAPIHeader());
         Tfeet.TFeetList resTfeetList = Tfeet.TFeetList.parseFrom(Base64.decode(responseStr,Base64.DEFAULT));
         List<Tfeet.TFeet> tfeetList = resTfeetList.getTfeetList();
         for(Tfeet.TFeet tfeet:tfeetList){
@@ -172,9 +169,9 @@ public class TfeetAPI {
      * @return
      * @throws InvalidProtocolBufferException
      */
-    public List<TfeetBO> getFriendsTfeetList(long uid,long lastSqid) throws InvalidProtocolBufferException {
+    public static List<TfeetBO> getFriendsTfeetList(long uid,long lastSqid) throws InvalidProtocolBufferException {
         List<TfeetBO> tfeetBOList = new ArrayList<TfeetBO>();
-        String responseStr = HttpUtils.getResponseForGet(API_PATH_GET_TFEET_FRIENDS+uid+"/"+lastSqid,genAPIHeader());
+        String responseStr = HttpUtils.getResponseForGet(wrapRESTFulUrl(API_PATH_GET_TFEET_FRIENDS,uid,lastSqid),genAPIHeader());
         Tfeet.TFeetList resTfeetList = Tfeet.TFeetList.parseFrom(Base64.decode(responseStr, Base64.DEFAULT));
         List<Tfeet.TFeet> tfeetList = resTfeetList.getTfeetList();
         for(Tfeet.TFeet tfeet:tfeetList){
@@ -191,8 +188,8 @@ public class TfeetAPI {
      * @return
      * @throws InvalidProtocolBufferException
      */
-    public UserBO getUserDetail(String uid) throws InvalidProtocolBufferException {
-        String responseStr = HttpUtils.getResponseForGet(API_PATH_GET_USERDETAIL+uid,genAPIHeader());
+    public static UserBO getUserDetail(String uid) throws InvalidProtocolBufferException {
+        String responseStr = HttpUtils.getResponseForGet(wrapRESTFulUrl(API_PATH_GET_USERDETAIL,uid),genAPIHeader());
         User.UserDetail userDetail = User.UserDetail.parseFrom(Base64.decode(responseStr, Base64.DEFAULT));
         UserBO bo = new UserBO();
         bo.protoBuf2BO(userDetail);
@@ -204,7 +201,7 @@ public class TfeetAPI {
      * @return
      * @throws InvalidProtocolBufferException
      */
-    public UserBO getCurrentUserDetail() throws InvalidProtocolBufferException {
+    public static UserBO getCurrentUserDetail() throws InvalidProtocolBufferException {
         String responseStr = HttpUtils.getResponseForGet(API_PATH_GET_USEROSS,genAPIHeader());
         User.UserDetail userDetail = User.UserDetail.parseFrom(Base64.decode(responseStr, Base64.DEFAULT));
         UserBO bo = new UserBO();
@@ -218,7 +215,7 @@ public class TfeetAPI {
      * @param friendUid 关注的用户ID
      * @throws JSONException
      */
-    public void followUser(String uid,String friendUid) throws JSONException {
+    public static void followUser(String uid,String friendUid) throws JSONException {
         User.FollowRequest.Builder followRequest = User.FollowRequest.newBuilder();
         followRequest.setUid(uid);
         followRequest.setFriendUid(friendUid);
@@ -234,7 +231,7 @@ public class TfeetAPI {
      * @param friendUid
      * @throws JSONException
      */
-    public void unFoloowUser(String uid,String friendUid) throws JSONException {
+    public static void unFoloowUser(String uid,String friendUid) throws JSONException {
         User.UnFollowRequest.Builder unFollowRequest = User.UnFollowRequest.newBuilder();
         unFollowRequest.setUid(uid);
         unFollowRequest.setFriendUid(friendUid);
@@ -242,6 +239,14 @@ public class TfeetAPI {
         JSONObject reqParams = new JSONObject();
         reqParams.put(APT_REQUEST_PARAMNAME,new String(Base64.encode(unFollowRequest.build().toByteArray(), Base64.DEFAULT)));
         HttpUtils.getResponseForPost(API_PATH_GET_USER_FOLLOW,reqParams,genAPIHeader());
+    }
+
+    private static String wrapRESTFulUrl(String baseUrl,Object ...params){
+        StringBuilder stringBuilder = new StringBuilder(baseUrl);
+        for(int i=0;i<params.length;i++){
+            stringBuilder.append("/%s");
+        }
+        return stringBuilder.toString().format(baseUrl,params);
     }
 
 }

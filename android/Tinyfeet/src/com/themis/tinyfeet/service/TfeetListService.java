@@ -1,25 +1,19 @@
 package com.themis.tinyfeet.service;
 
+import android.app.Activity;
 import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.nfc.Tag;
-import android.os.Binder;
-import android.os.IBinder;
-import android.util.Base64;
+import android.os.*;
 import android.util.Log;
-import com.themis.tinyfeet.Constants;
+import com.themis.tinyfeet.apiService.TfeetAPI;
+import com.themis.tinyfeet.bo.TfeetBO;
 import com.themis.tinyfeet.db.TfeetDbHelper;
 import com.themis.tinyfeet.db.model.TfeetColumn;
-import com.themis.tinyfeet.proto.Tfeet;
-import com.themis.tinyfeet.utils.HttpUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,39 +22,28 @@ import java.io.InputStreamReader;
  * Time: 下午9:14
  * To change this template use File | Settings | File Templates.
  */
-public class TfeetListService extends IntentService implements ITfeetListServ{
+public class TfeetListService extends IntentService{
     private static final String TAG = "TfeetListService";
-    private ServiceBinder serviceBinder = new ServiceBinder();
-
     public TfeetListService() {
         super("TfeetList");
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        try {
-            String responseStr = HttpUtils.getResponseForGet(Constants.TFEET_LOC_LIST,this);
-            if(responseStr!=null){
-                TfeetDbHelper tfeetDbHelper = new TfeetDbHelper(this);
-                Tfeet.TFeetList tfeetList = Tfeet.TFeetList.parseFrom(Base64.decode(responseStr,Base64.DEFAULT));
-                for(Tfeet.TFeet tfeet:tfeetList.getTfeetList()){
-                    ContentValues values = TfeetColumn.fillValues(tfeet);
-                    tfeetDbHelper.insert(values);
-                }
+            Bundle bundle = intent.getExtras();
+            Messenger messenger =  (Messenger)bundle.get("messenger");
+            Message msg = Message.obtain();
 
-                //
+            //List<TfeetBO> tfeetList = TfeetAPI.getLocTfeetList(100, 200, 1, 0, 0);
+            List<TfeetBO> tfeetList = new ArrayList<TfeetBO>();
 
+            msg.arg1 = Activity.RESULT_OK;
+            msg.obj = tfeetList;
+            try {
+                messenger.send(msg);
+            } catch (android.os.RemoteException e1) {
+                Log.w(TAG, "Exception sending message", e1);
             }
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
     }
 
-    public IBinder onBind(Intent intent) {
-        return serviceBinder;
-    }
-
-    public class ServiceBinder extends Binder implements ITfeetListServ {
-
-    }
 }

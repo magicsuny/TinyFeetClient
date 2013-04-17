@@ -1,6 +1,7 @@
 package com.themis.tinyfeet.db.model;
 
 import android.content.ContentValues;
+import com.themis.tinyfeet.bo.TfeetBO;
 import com.themis.tinyfeet.proto.Tfeet;
 
 /**
@@ -23,19 +24,19 @@ public final class TfeetColumn {
     public static final String LONGITUDE = "LONGITUDE";
     public static final String CREATED_AT = "CREATE_AT";
 
-    public static ContentValues fillValues(Tfeet.TFeet tfeet){
+    public static ContentValues fillValues(TfeetBO tfeet){
         ContentValues values = new ContentValues();
         values.clear();
-        values.put(ID,String.valueOf(tfeet.getTfid()));
-        values.put(UID,String.valueOf(tfeet.getUser().getUid()));
+        values.put(ID,String.valueOf(tfeet.getTfId()));
+        values.put(UID,String.valueOf(tfeet.getUserId()));
         values.put(PIC_URL,String.valueOf(tfeet.getPicUrl()));
         values.put(TEXT,String.valueOf(tfeet.getText()));
-        values.put(SEASON,String.valueOf(tfeet.getSeason().getNumber()));
-        values.put(DAYNIGHT,String.valueOf(tfeet.getDaynight().toString()));
+        values.put(SEASON,String.valueOf(tfeet.getSeason()));
+        values.put(DAYNIGHT,String.valueOf(tfeet.getDayNight()));
         values.put(LIKE_COUNT,String.valueOf(tfeet.getLikedCount()));
         values.put(COMMENT_COUNT,String.valueOf(tfeet.getCommentCount()));
-        values.put(LATITUDE,String.valueOf(tfeet.getGeo().getLat()));
-        values.put(LONGITUDE,String.valueOf(tfeet.getGeo().getLng()));
+        values.put(LATITUDE,String.valueOf(tfeet.getLatitude()));
+        values.put(LONGITUDE,String.valueOf(tfeet.getLongitude()));
         values.put(CREATED_AT,String.valueOf(tfeet.getCreatedAt()));
         return values;
 

@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
+import com.themis.tinyfeet.bo.TfeetBO;
 import com.themis.tinyfeet.db.model.TfeetColumn;
 
 /**
@@ -19,6 +21,7 @@ public class TfeetDbHelper extends SQLiteOpenHelper {
     static final String DB_NAME = "tfeet.db";
     static final int DB_VERSION = 1;
     static final String TABLE_NAME ="tfeets";
+    static final String TFEET_INSERT = "INSERT OR IGNORE INTO tfeets VALUES(?,?,?,?,?,?,?,?,?,?)";
     private Context context;
 
     public TfeetDbHelper(Context context) {
@@ -40,9 +43,12 @@ public class TfeetDbHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void insert(ContentValues values) {
+    public void insert(TfeetBO ...bo) {
         SQLiteDatabase db = getWritableDatabase();
-        db.insert(TABLE_NAME, null, values);
+        SQLiteStatement stmt = db.compileStatement(TFEET_INSERT);
+        //stmt.bindString();
+
+        //db.insert(TABLE_NAME, null, values);
         db.close();
     }
 }
