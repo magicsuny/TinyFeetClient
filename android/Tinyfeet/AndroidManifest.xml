@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
     <application
         android:name="com.themis.tinyfeet.TinyFeetApplication"
         android:icon="@drawable/ic_launcher"
@@ -29,6 +29,10 @@
         <activity
             android:name="com.themis.tinyfeet.LoginActivity"
             android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+                android:name=".LocationTfeetListActivity"
+                android:label="@string/title_activity_locationTfeetlist" >
         </activity>
         <activity
             android:name="com.themis.tinyfeet.MainActivity"

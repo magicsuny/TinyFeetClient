@@ -15,5 +15,6 @@
     <string name="menuExit">退出</string>
     <string name="title_activity_test">TestActivity</string>
     <string name="title_activity_discovery">DiscoveryActivity</string>
+    <string name="title_activity_locationTfeetlist">LocationTfeetList</string>
 
 </resources>
